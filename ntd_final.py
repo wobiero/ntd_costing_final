@@ -1356,7 +1356,7 @@ def load_data(file_path: str) -> pd.DataFrame:
     df["Hourly_PPP(Int$)"] = df.apply(lambda row: row["Hourly_Nominal(USD)"] * 2.8 if row["Hourly_PPP(Int$)"] == 0 else row["Hourly_PPP(Int$)"], axis=1)
     return df
 
-country_inputs = load_data("~/df_gdp.csv")
+country_inputs = load_data("/~/df_gdp.csv")
 country_dict = country_inputs.set_index("Country").T.to_dict()
 country_list = sorted(country_inputs["Country"].tolist())
 country = st.sidebar.selectbox(
