@@ -2205,8 +2205,8 @@ if "Lymphatic filariasis" in ntd_disease:
             The initial high demand is assumed to stem from higher surgical interventions for the larger hydroceles.
             """))
             
-            hydrocele_declines = hydrocele_plotter(sim_data)
-            st.write(hydrocele_declines)
+            #hydrocele_declines = hydrocele_plotter(sim_data)
+            #st.write(hydrocele_declines)
 
     with tabs[3]:
         simulated_df = monte_carlo_data(sim_data)
