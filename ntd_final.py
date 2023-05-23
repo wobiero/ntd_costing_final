@@ -1357,7 +1357,7 @@ def load_data(file_path: str) -> pd.DataFrame:
     return df
 
 data_file = os.path.join(folder_path, 'df_gdp.csv')
-country_inputs = load_data(datafile)
+country_inputs = load_data(data_file)
 country_dict = country_inputs.set_index("Country").T.to_dict()
 country_list = sorted(country_inputs["Country"].tolist())
 country = st.sidebar.selectbox(
