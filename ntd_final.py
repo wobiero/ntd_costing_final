@@ -3030,10 +3030,12 @@ if "Onchocerciasis" in ntd_disease:
         with country_maps:
 
             try:
-                country_map_1 = Image.open("/~/static_oncho_maps/"+country+".png")
+                oncho_static_file = os.path.join(folder_path, 'static_oncho_maps')
+
+                country_map_1 = Image.open(oncho_static_file + "/"+country+".png")
                 st.image(country_map_1)
                 st.download_button(label = f"Download {country} map",
-                                    data = open("/~/static_oncho_maps/"+country+".png", 'rb').read(),
+                                    data = open(oncho_static_file + "/"+country+".png", 'rb').read(),
                                     file_name =country+".png",
                                     mime = "image/png")
             except IOError:
@@ -3042,7 +3044,8 @@ if "Onchocerciasis" in ntd_disease:
         interactive_map = st.expander(translate_text(f"Click here if you want to see the interactive map for {country}"))
         with interactive_map:
             try:
-                html_map = open("/~/html_oncho_maps/"+country+".html", "r", encoding='utf-8')
+                ov_html_file = os.path.join(folder_path, 'oncho_html_maps')
+                html_map = open(ov_html_file + "/"+country+".html", "r", encoding='utf-8')
                 source_code =html_map.read()
                 components.html(source_code, width=1000, height=1500)
             except IOError:
