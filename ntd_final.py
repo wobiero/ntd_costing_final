@@ -1954,7 +1954,8 @@ if "Lymphatic filariasis" in ntd_disease:
             st.write(translate_text(f"""We estimate {hydrocele_cases:,.0f} chronic hydrocele cases, {lymphedema_cases:,.0f} chronic 
                         lymphedema cases, and {adl_cases_total:,.0f} annual ADL cases at this level in the counterfactual scenario of no MDA."""))
             
-            lymph_df = pd.read_csv("/~/lymph_proportions.csv")
+            lf_props_file = os.path.join(folder_path, 'lymph_proportions.csv')
+            lymph_df = pd.read_csv(lf_props_file)
             lymph_df["Cases"] = [x * lymphedema_cases for x in lymph_df["First"]]
             stages = ["Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage 5", "Stage 6", "Stage 7"]
             
