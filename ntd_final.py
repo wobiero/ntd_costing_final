@@ -2586,7 +2586,8 @@ if "Onchocerciasis" in ntd_disease:
     
         # #========================================================================================
         # The country_espen dataframe contains LF status details
-        country_espen = pd.read_csv("/~/oncho.csv")
+        data_file = os.path.join(folder_path, 'oncho.csv')
+        country_espen = load_data(data_file)
         country_espen = country_espen[country_espen["Year"]==2020].copy()
         country_espen = country_espen[country_espen["ADMIN0"]==country] 
         country_espen = country_espen.drop_duplicates(subset=["IU_CODE"])
