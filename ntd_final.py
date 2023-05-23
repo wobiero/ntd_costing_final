@@ -21,12 +21,15 @@ import markdown
 from typing import Optional
 #==================================================================================================================================
 # Define the path components
-folder_name = "datasets"
-#parent_folder = "Documents"
-user_folder = os.path.expanduser("~")  # Gets the user's home directory
+# folder_name = "datasets"
+# #parent_folder = "Documents"
+# user_folder = os.path.expanduser("~")  # Gets the user's home directory
 
-# Construct the path to the folder
-folder_path = os.path.join(user_folder, folder_name)
+# # Construct the path to the folder
+# folder_path = os.path.join(user_folder, folder_name)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+docs_path = os.path.join(BASE_DIR, "datasets")
 #==================================================================================================================================
 np.random.seed(12345)
 st.set_page_config(page_title="NTD Endgame", layout="wide")
