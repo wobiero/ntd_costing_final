@@ -2025,10 +2025,12 @@ if "Lymphatic filariasis" in ntd_disease:
             #     except IOError:
             #         st.write(f"Static map for {country} not found. Please check source directory.")
             try:
-                country_map_1 = Image.open("/~/static_lf_maps/"+country+".png")
+                lf_static_file = os.path.join(folder_path, 'static_lf_maps')
+
+                country_map_1 = Image.open(lf_static_file + "/" +country+".png")
                 st.image(country_map_1)
                 st.download_button(label = f"Download {country} map",
-                                    data = open("/~/static_lf_maps/"+country+".png", 'rb').read(),
+                                    data = open(lf_static_file + "/"+country+".png", 'rb').read(),
                                     file_name =country+".png",
                                     mime = "image/png")
             except IOError:
