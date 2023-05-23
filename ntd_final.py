@@ -27,7 +27,6 @@ user_folder = os.path.expanduser("~")  # Gets the user's home directory
 
 # Construct the path to the folder
 folder_path = os.path.join(user_folder, folder_name)
-folder_path = 
 #==================================================================================================================================
 np.random.seed(12345)
 st.set_page_config(page_title="NTD Endgame", layout="wide")
