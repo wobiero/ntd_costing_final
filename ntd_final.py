@@ -1486,7 +1486,8 @@ if "Lymphatic filariasis" in ntd_disease:
     with tabs[1]:
         # #=====================================================================================================================================================
         # The country_espen dataframe contains LF status details
-        country_espen = pd.read_csv("/~/espen.csv")
+        espen_file = os.path.join(folder_path, 'espen.csv')
+        country_espen = pd.read_csv(espen_file)
         country_espen.drop(["CONTINENT", "REGION", "WHO_REGION", "ADMIN0ID", "ADMIN0_FIP",
         "ADMIN1ID", "ADMIN2ID", "Alt_ADMIN2","ADMIN0ISO2", "ADMIN0ISO3", "ADMIN3ID", "IUs_ADM" ], axis=1, inplace=True)
         country_espen = country_espen[country_espen["ADMIN0"]==country] 
