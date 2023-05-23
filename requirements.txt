@@ -1,0 +1,15 @@
+ altair
+ googletrans==4.0.0rc1
+ markdown==3.2.2
+ matplotlib==3.5.1
+ numpy
+ pandas
+ pathlib2==2.3.5
+ Pillow==9.0.0
+ pickleshare==0.7.5
+ random2==1.0.1
+ scipy
+ streamlit
+ streamlit-aggrid==0.2.3.post2
+ typing_extensions==4.0.1
+ 
