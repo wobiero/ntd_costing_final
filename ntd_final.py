@@ -2067,7 +2067,7 @@ if "Lymphatic filariasis" in ntd_disease:
 
 
             try:
-                lf_html_file = os.path.join(folder_path, 'lf_maps_html')
+                lf_html_file = os.path.join(folder_path, 'lf_html_maps')
                 html_map = open(lf_html_file + "/" + country + ".html", "r", encoding='utf-8')
                 source_code =html_map.read()
                 components.html(source_code, width=1000, height=1500)
