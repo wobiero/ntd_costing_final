@@ -1383,7 +1383,7 @@ def load_country_flag(country: str) -> Image:
         An Image object representing the country flag.
     """
     flags_path = os.path.join(folder_path, "flags")
-    file_path = flags_path + country + ".png"
+    file_path = flags_path + "/" + country + ".png"
     return Image.open(file_path)
 country_flag = load_country_flag(country)
 
