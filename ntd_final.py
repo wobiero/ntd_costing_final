@@ -551,7 +551,7 @@ def hydrocele_plotter(sim_data):
     for sp in ["top", "right"]:
         ax.spines[sp].set_visible(False)
     for x in variables:
-        plt.plot(df["year"], df[x].tolist(), lw=.5)
+        plt.plot(df["year"], df[x], lw=.5)
         plt.axhline(0, ls="--", lw=.5)
 
     current_values = plt.gca().get_yticks()
@@ -2205,9 +2205,11 @@ if "Lymphatic filariasis" in ntd_disease:
             their lifetime with a 87% success rate, and 90% morbidity reduction. The decline in demand for surgery follows a logistic pattern with initial high demand and a longer tail with low demand.
             The initial high demand is assumed to stem from higher surgical interventions for the larger hydroceles.
             """))
-            
-            hydrocele_declines = hydrocele_plotter(sim_data)
-            st.write(hydrocele_declines)
+            try:
+                hydrocele_declines = hydrocele_plotter(sim_data)
+                st.write(hydrocele_declines)
+            except Exception as e:
+                return ""
 
     with tabs[3]:
         simulated_df = monte_carlo_data(sim_data)
