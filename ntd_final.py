@@ -537,7 +537,7 @@ def hydrocele_plotter(sim_data):
     """
     Plots the remaining hydrocele cases per location
     """
-    values = [hydr_single_run(sim_data) for i in range(10)]
+    values = [hydr_single_run(sim_data) for _ in range(10)]
     time = np.linspace(0,39,40) + 2020
     df = pd.DataFrame(values).T
     df = df.add_prefix("simulation_")
@@ -550,7 +550,7 @@ def hydrocele_plotter(sim_data):
     for sp in ["top", "right"]:
         ax.spines[sp].set_visible(False)
     for x in variables:
-        plt.plot(df["year"], df[x], lw=.5)
+        plt.plot(df["year"], df[x].values, lw=.5)
         plt.axhline(0, ls="--", lw=.5)
 
     current_values = plt.gca().get_yticks()
