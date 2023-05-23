@@ -212,7 +212,7 @@ def transmission_efficacy(country_status):
                     "MDA 6": .01}
     return efficacy_dict.get(country_status, 0)
 
-@st.cache
+@st.cache_data
 def caseloads(at_risk_pop, time_horizon):
     """
     This function calculates the number of ADL cases p.a.
@@ -513,7 +513,7 @@ def monte_carlo_data(sim_data):
     )
     return df
 
-@st.cache
+@st.cache_data
 def hydr_single_run(sim_data):
     """
     Estimate remaining hydrocele cases with surgery per year
@@ -584,7 +584,7 @@ def show_df(dataset):
     gridOptions = grids.build()
     AgGrid(dataset, gridOptions=gridOptions, enable_enterprise_modules=True)
     
-@st.cache
+@st.cache_data
 def annual_workdays_lost_no_mda(simulated_df,lymphedema_cases, hydrocele_cases):
     """
     Sum of workdays lost from chronic disease and from ADL episodes
@@ -656,7 +656,7 @@ def annual_workdays_lost_no_mda(simulated_df,lymphedema_cases, hydrocele_cases):
     """
     return df, days_narrative, adl_days_lost_no_mda_pa
 
-@st.cache
+@st.cache_data
 def dalys_pa(hydrocele_cases, lymphedema_cases, simulated_df):
     """
     Estimate DALYs lost p.a. from cases
@@ -688,7 +688,7 @@ def dalys_pa(hydrocele_cases, lymphedema_cases, simulated_df):
     df = df.reset_index(drop=True)
     return df
 
-@st.cache
+@st.cache_data
 def annual_workdays_lost_with_mda(simulated_df,lymphedema_cases, hydrocele_cases):
     """
     Sum of workdays lost from chronic disease and from ADL episodes
@@ -758,7 +758,7 @@ def annual_workdays_lost_with_mda(simulated_df,lymphedema_cases, hydrocele_cases
     """
     return df, days_narrative, adl_days_lost_with_mda_pa
 
-@st.cache
+@st.cache_data
 def dalys_pa_mda(hydrocele_cases, lymphedema_cases, simulated_df):
     """
     Estimate DALYs lost p.a. from cases
