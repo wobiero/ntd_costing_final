@@ -551,7 +551,7 @@ def hydrocele_plotter(sim_data):
     for sp in ["top", "right"]:
         ax.spines[sp].set_visible(False)
     for x in variables:
-        plt.plot(df["year"], df[x].values, lw=.5)
+        plt.plot(df["year"], df[x].tolist(), lw=.5)
         plt.axhline(0, ls="--", lw=.5)
 
     current_values = plt.gca().get_yticks()
