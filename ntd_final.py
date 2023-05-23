@@ -21,13 +21,13 @@ import markdown
 from typing import Optional
 #==================================================================================================================================
 # Define the path components
-folder_name = "datasets"
-#parent_folder = "Documents"
-user_folder = os.path.expanduser("~")  # Gets the user's home directory
+# folder_name = "datasets"
+# #parent_folder = "Documents"
+# user_folder = os.path.expanduser("~")  # Gets the user's home directory
 
-# Construct the path to the folder
-folder_path = os.path.join(user_folder, folder_name)
-
+# # Construct the path to the folder
+# folder_path = os.path.join(user_folder, folder_name)
+folder_path = os.path.join(os.path.dirname(__file__), 'datasets')
 
 #==================================================================================================================================
 np.random.seed(12345)
@@ -1356,7 +1356,8 @@ def load_data(file_path: str) -> pd.DataFrame:
     df["Hourly_PPP(Int$)"] = df.apply(lambda row: row["Hourly_Nominal(USD)"] * 2.8 if row["Hourly_PPP(Int$)"] == 0 else row["Hourly_PPP(Int$)"], axis=1)
     return df
 
-country_inputs = load_data("/~/df_gdp.csv")
+data_file = os.path.join(folder_path, 'df_gdp.csv')
+country_inputs = load_data(datafile)
 country_dict = country_inputs.set_index("Country").T.to_dict()
 country_list = sorted(country_inputs["Country"].tolist())
 country = st.sidebar.selectbox(
