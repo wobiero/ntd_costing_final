@@ -824,7 +824,7 @@ def patient_hours(time_horizon):
 
     pass
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def econ_values():
     """
     Returns the economic values for a given country, as entered by the user in the Streamlit interface.
