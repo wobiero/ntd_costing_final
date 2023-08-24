@@ -588,7 +588,7 @@ def hydrocele_plotter(sim_data):
         x='year:O',  # Assuming the year column is of datetime type
         y=alt.Y('value:Q', title="Lymphedema cases"),
         color='variable:N',  # Use a nominal scale for different colors
-        tooltip=['year:T', 'value:Q']
+        tooltip=['year:O', 'value:Q']
     ).properties(
         title="Simulated hydrocele surgical demand over time"
     )
