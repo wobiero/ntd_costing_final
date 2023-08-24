@@ -534,32 +534,70 @@ def hydr_single_run(sim_data):
     return hydr_remain_cases
 
 
+# def hydrocele_plotter(sim_data):
+#     """
+#     Plots the remaining hydrocele cases per location
+#     """
+#     values = [hydr_single_run(sim_data) for _ in range(10)]
+#     time = np.linspace(0,39,40) + 2020
+#     df = pd.DataFrame(values).T
+#     df = df.add_prefix("simulation_")
+#     df.insert(loc=0, column="year", value=time)
+#     variables = df.columns[1:]
+
+#     fig, ax = plt.subplots(figsize=(8,5), dpi=100)
+#     plt.grid(axis="both", alpha=.8, lw=.5)
+
+#     for sp in ["top", "right"]:
+#         ax.spines[sp].set_visible(False)
+#     for x in variables:
+#         plt.plot(df["year"], df[x], lw=.5)
+#         plt.axhline(0, ls="--", lw=.5)
+
+#     current_values = plt.gca().get_yticks()
+#     plt.gca().set_yticks(current_values)
+#     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_values])  
+#    # plt.ylabel(translate_text("Estimated hydrocele surgical demand"))
+#    # plt.title(translate_text("Simulated hydrocele surgical demand over time"))
+#     return fig
+
 def hydrocele_plotter(sim_data):
     """
-    Plots the remaining hydrocele cases per location
+    Create a multiple line chart using Altair.
+
+    Parameters:
+    dataframe (pd.DataFrame): A DataFrame containing time series data.
+        The first column should be 'year' as the x-axis, and the remaining
+        columns represent different variables for the y-axis.
+
+    Returns:
+    alt.Chart: An Altair chart displaying multiple lines, each representing
+        a variable over time.
     """
+    # Melt the dataframe to have a single column for y-values
     values = [hydr_single_run(sim_data) for _ in range(10)]
     time = np.linspace(0,39,40) + 2020
     df = pd.DataFrame(values).T
     df = df.add_prefix("simulation_")
     df.insert(loc=0, column="year", value=time)
-    variables = df.columns[1:]
+    melted_df = pd.melt(df, id_vars=['year'], var_name='variable', value_name='value')
 
-    fig, ax = plt.subplots(figsize=(8,5), dpi=100)
-    plt.grid(axis="both", alpha=.8, lw=.5)
+    # Create a line chart
+    chart = alt.Chart(melted_df).mark_line().encode(
+        x='year:T',  # Assuming the year column is of datetime type
+        y='value:Q',
+        color='variable:N',  # Use a nominal scale for different colors
+        tooltip=['year:T', 'value:Q']
+    ).properties(
+        title="Simulated hydrocele surgical demand over time"
+    )
 
-    for sp in ["top", "right"]:
-        ax.spines[sp].set_visible(False)
-    for x in variables:
-        plt.plot(df["year"], df[x], lw=.5)
-        plt.axhline(0, ls="--", lw=.5)
+    return chart
 
-    current_values = plt.gca().get_yticks()
-    plt.gca().set_yticks(current_values)
-    plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_values])  
-   # plt.ylabel(translate_text("Estimated hydrocele surgical demand"))
-   # plt.title(translate_text("Simulated hydrocele surgical demand over time"))
-    return fig
+# Example usage:
+# Assuming you have a DataFrame named 'df' with 'year' as the first column and other float columns
+# alt_chart = plot_multiple_lines(df)
+# alt_chart.show()
 
 def styler(df):
     """
