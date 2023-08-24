@@ -580,20 +580,12 @@ def hydrocele_plotter(sim_data):
     df = pd.DataFrame(values).T
     df = df.add_prefix("simulation_")
     df.insert(loc=0, column="year", value=time)
-   
-    # df2 = df.reset_index().melt("year")
-    # alt.Chart(df2).mark_line().encode(
-    #     x="year",
-    #     y=alt.Y("value:Q",title="Lymphedema cases"),
-    #     color="variable:N"
-    # ).properties(
-    #     title="Simulated hydrocele surgical demand over time"
-    # )
+
     melted_df = pd.melt(df, id_vars=['year'], var_name='variable', value_name='value')
 
     # Create a line chart
     chart = alt.Chart(melted_df).mark_line().encode(
-        x='year:O',  # Assuming the year column is of datetime type
+        x=alt.X('year:O', title="Year"),  # Assuming the year column is of datetime type
         y=alt.Y('value:Q', title="Lymphedema cases"),
         color='variable:N',  # Use a nominal scale for different colors
         tooltip=['year:O', 'value:Q']
