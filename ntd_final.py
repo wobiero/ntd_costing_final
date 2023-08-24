@@ -2205,6 +2205,7 @@ if "Lymphatic filariasis" in ntd_disease:
             their lifetime with a 87% success rate, and 90% morbidity reduction. The decline in demand for surgery follows a logistic pattern with initial high demand and a longer tail with low demand.
             The initial high demand is assumed to stem from higher surgical interventions for the larger hydroceles.
             """))
+            st.write(sim_data)
             try:
                 hydrocele_declines = hydrocele_plotter(sim_data)
                 st.write(hydrocele_declines)
