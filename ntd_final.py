@@ -555,7 +555,7 @@ def hydrocele_plotter(sim_data):
         plt.axhline(0, ls="--", lw=.5)
 
     current_values = plt.gca().get_yticks()
-    ax.set_yticks([x for x in current_values])
+    plt.gca().set_yticks([x for x in current_values])
     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_values])  
     plt.ylabel(translate_text("Estimated hydrocele surgical demand"))
     plt.title(translate_text("Simulated hydrocele surgical demand over time"))
