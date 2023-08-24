@@ -2245,7 +2245,7 @@ if "Lymphatic filariasis" in ntd_disease:
             """))
             try:
                 hydrocele_declines = hydrocele_plotter(sim_data)
-                st.pyplot(hydrocele_declines)
+                st.write(hydrocele_declines)
             except Exception as e:
                 st.write("Check hydrocele decline code")
 
