@@ -557,8 +557,8 @@ def hydrocele_plotter(sim_data):
     current_values = plt.gca().get_yticks()
     plt.gca().set_yticks(current_values)
     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_values])  
-    plt.ylabel(translate_text("Estimated hydrocele surgical demand"))
-    plt.title(translate_text("Simulated hydrocele surgical demand over time"))
+   # plt.ylabel(translate_text("Estimated hydrocele surgical demand"))
+   # plt.title(translate_text("Simulated hydrocele surgical demand over time"))
     return fig
 
 def styler(df):
