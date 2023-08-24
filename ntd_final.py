@@ -583,7 +583,7 @@ def hydrocele_plotter(sim_data):
    
     df2 = df.reset_index().melt("year")
     alt.Chart(df2).mark_line().encode(
-        x="year:O",
+        x="year",
         y=alt.Y("value:Q",title="Lymphedema cases"),
         color="variable:N"
     ).properties(
