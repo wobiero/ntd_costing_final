@@ -554,9 +554,9 @@ def hydrocele_plotter(sim_data):
         plt.plot(df["year"], df[x], lw=.5)
         plt.axhline(0, ls="--", lw=.5)
 
-    current_values = plt.gca().get_yticks()
-    plt.gca().set_yticks(current_values)
-    plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_values])  
+    #current_values = plt.gca().get_yticks()
+    #plt.gca().set_yticks(current_values)
+    #plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_values])  
     plt.ylabel(translate_text("Estimated hydrocele surgical demand"))
     plt.title(translate_text("Simulated hydrocele surgical demand over time"))
     return fig
@@ -2205,7 +2205,6 @@ if "Lymphatic filariasis" in ntd_disease:
             their lifetime with a 87% success rate, and 90% morbidity reduction. The decline in demand for surgery follows a logistic pattern with initial high demand and a longer tail with low demand.
             The initial high demand is assumed to stem from higher surgical interventions for the larger hydroceles.
             """))
-            st.write(sim_data)
             try:
                 hydrocele_declines = hydrocele_plotter(sim_data)
                 st.write(hydrocele_declines)
