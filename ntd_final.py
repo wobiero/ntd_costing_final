@@ -2291,7 +2291,7 @@ if "Lymphatic filariasis" in ntd_disease:
         econ_results.loc[econ_results["Indicator"]=="DALYs", "Cumulative-Discounted Values"] = '{:,.0f}'.format(cost_discounter([dalys_lost.iloc[-1]["Mean"]]*time_horizon, time_horizon, disc_costs=disc_costs))
 
         econ_results.loc[econ_results["Indicator"]=="Lost Labor Costs", "Discounted Values"] = "$" + str('{:,.2f}'.format(labor_loss[0]))
-        econ_results.loc[econ_results["Indicator"]=="Lost Labor Costs", "Cumulative-Discounted Values"] = "$" + str('{:,.2f}'.format(labor_loss[0]))
+        econ_results.loc[econ_results["Indicator"]=="Lost Labor Costs", "Cumulative-Discounted Values"] = "$" + str('{:,.2f}'.format(cost_discounter([labor_loss[0]]*time_horizon, time_horizon, disc_costs=disc_costs))
 
         econ_results.loc[econ_results["Indicator"]=="Consultation Hours", "Discounted Values"] = '{:,.0f}'.format(health_sector_hours)
         econ_results.loc[econ_results["Indicator"]=="Consultation Hours", "Cumulative-Discounted Values"] = '{:,.0f}'.format(health_sector_hours * time_horizon)
@@ -2308,6 +2308,7 @@ if "Lymphatic filariasis" in ntd_disease:
         econ_results.loc[econ_results["Indicator"]=="Total Economic Costs", "Discounted Values"] = "$" + str('{:,.2f}'.format(tot_lf_econ_costs[0]))
         econ_results.loc[econ_results["Indicator"]=="Total Economic Costs", "Cumulative-Discounted Values"] = "$" + str('{:,.2f}'.format(cost_discounter([tot_lf_econ_costs[0]]*time_horizon, time_horizon, disc_costs=disc_costs))) 
 
+        econ_results = econ_results.rename(columns={"Discounted Values": "Annual Value (2023)"})
         see_econ_results = st.expander(translate_text("Click to see summary of results - no MDA scenario"))
         
         with see_econ_results:
@@ -2392,8 +2393,8 @@ if "Lymphatic filariasis" in ntd_disease:
         # econ_results_mda.loc[econ_results_mda["Indicator"]=="Baseline Population (at risk)", "Discounted Values"] = '{:,.0f}'.format(at_risk_pop)
         # econ_results_mda.loc[econ_results_mda["Indicator"]=="Baseline Population (at risk)", "Cumulative-Discounted Values"] = '{:,.0f}'.format(at_risk_pop)
         
-        econ_results_mda.loc[econ_results_mda["Indicator"]=="Economic Workdays Lost", "Cumulative-Discounted Values"] = '{:,.0f}'.format(days_lost_mda.iloc[-1]["Mean"])
-        econ_results_mda.loc[econ_results_mda["Indicator"]=="Economic Workdays Lost", "Discounted Values"] = '{:,.0f}'.format(cost_discounter([days_lost_mda.iloc[-1]["Mean"]]*time_horizon, time_horizon, disc_costs=disc_costs))
+        econ_results_mda.loc[econ_results_mda["Indicator"]=="Economic Workdays Lost", "Discounted Values"] = '{:,.0f}'.format(days_lost_mda.iloc[-1]["Mean"])
+        econ_results_mda.loc[econ_results_mda["Indicator"]=="Economic Workdays Lost", "Cumulative-Discounted Values"] = '{:,.0f}'.format(cost_discounter([days_lost_mda.iloc[-1]["Mean"]]*time_horizon, time_horizon, disc_costs=disc_costs))
         
         econ_results_mda.loc[econ_results_mda["Indicator"]=="DALYs", "Discounted Values"] = '{:,.0f}'.format(dalys_lost_mda.iloc[-1]["Mean"])
         econ_results_mda.loc[econ_results_mda["Indicator"]=="DALYs", "Cumulative-Discounted Values"] = '{:,.0f}'.format(cost_discounter([dalys_lost_mda.iloc[-1]["Mean"]]*time_horizon, time_horizon, disc_costs=disc_costs))
@@ -2415,7 +2416,8 @@ if "Lymphatic filariasis" in ntd_disease:
 
         econ_results_mda.loc[econ_results_mda["Indicator"]=="Total Economic Costs", "Discounted Values"] = "$" + str('{:,.2f}'.format(tot_lf_econ_costs_mda[0]))
         econ_results_mda.loc[econ_results_mda["Indicator"]=="Total Economic Costs", "Cumulative-Discounted Values"] = "$" + str('{:,.2f}'.format(cost_discounter([tot_lf_econ_costs_mda[0]]*time_horizon, time_horizon, disc_costs=disc_costs))) 
-        
+
+        econ_results_mda = econ_results_mda.rename(columns={"Discounted Values": "Annual Value (2023)"})
         see_econ_results_mda = st.expander(translate_text("Click to see summary of results - MDA scenario"))
         
 
