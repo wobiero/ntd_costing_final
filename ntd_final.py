@@ -1932,29 +1932,29 @@ if "Lymphatic filariasis" in ntd_disease:
         prog_cost_expander = st.expander(translate_text("Summary of Progammatic Costs"))
         prog_cost_expander.dataframe(prog_cost_df)
         
-        patient_costs = st.sidebar.expander(translate_text("Average patient costs"))
-        with patient_costs:
-            medication_costs = st.number_input(translate_text("Drug costs for OPD visit"), value = 1)
-            laboratory_costs = st.number_input(translate_text("Laboratory costs for OPD visit"), value=1)
-            surgical_costs = st.number_input(translate_text("Surgical costs for hydrocele"), value=1) 
-            inpatient_costs = st.number_input(translate_text("Inpatient costs for hydrocele surgery"), value=1)
-            dressing_costs = st.number_input(translate_text("Limb care (dressing) costs"), value=1)
-            consultation_costs = st.number_input(translate_text("OPD consultation costs"), value=1)
-            travel_costs = st.number_input(translate_text("Average travel costs"), value=1)
-            avg_time_at_clinic = st.number_input(translate_text("Average time spent at facility in hours"), value=1)
-            avg_los_surgery = st.number_input(translate_text("Average length of stay hydrocele surgery in days"), value=1)
-            time_costs_adl = avg_time_at_clinic * daily_wage()[1]
-            time_costs_hydro = avg_los_surgery * daily_wage()[0]
-            patient_clinical_adl_costs = (
-                medication_costs + laboratory_costs + consultation_costs + travel_costs
-            )
-            patient_non_clinical_adl_costs = medication_costs
-            patient_hydrocele_costs = (
-                medication_costs + laboratory_costs + consultation_costs + travel_costs +
-                inpatient_costs + surgical_costs + dressing_costs
-            )
-            medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
-
+        # patient_costs = st.sidebar.expander(translate_text("Average patient costs"))
+        # with patient_costs:
+        #     medication_costs = st.number_input(translate_text("Drug costs for OPD visit"), value = 1)
+        #     laboratory_costs = st.number_input(translate_text("Laboratory costs for OPD visit"), value=1)
+        #     surgical_costs = st.number_input(translate_text("Surgical costs for hydrocele"), value=1) 
+        #     inpatient_costs = st.number_input(translate_text("Inpatient costs for hydrocele surgery"), value=1)
+        #     dressing_costs = st.number_input(translate_text("Limb care (dressing) costs"), value=1)
+        #     consultation_costs = st.number_input(translate_text("OPD consultation costs"), value=1)
+        #     travel_costs = st.number_input(translate_text("Average travel costs"), value=1)
+        #     avg_time_at_clinic = st.number_input(translate_text("Average time spent at facility in hours"), value=1)
+        #     avg_los_surgery = st.number_input(translate_text("Average length of stay hydrocele surgery in days"), value=1)
+        #     time_costs_adl = avg_time_at_clinic * daily_wage()[1]
+        #     time_costs_hydro = avg_los_surgery * daily_wage()[0]
+        #     patient_clinical_adl_costs = (
+        #         medication_costs + laboratory_costs + consultation_costs + travel_costs
+        #     )
+        #     patient_non_clinical_adl_costs = medication_costs
+        #     patient_hydrocele_costs = (
+        #         medication_costs + laboratory_costs + consultation_costs + travel_costs +
+        #         inpatient_costs + surgical_costs + dressing_costs
+        #     )
+        #     medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
+        medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
         technical_expander = st.sidebar.expander(translate_text("Technical parameters (In-built defaults))"))
         with technical_expander:
 
@@ -2447,11 +2447,48 @@ if "Lymphatic filariasis" in ntd_disease:
             qaly_diff_lf_l = 1 -(dalys_lost_mda.iat[3,2] - dalys_lost.iat[3,2])
             qaly_diff_lf_u = 1 -(dalys_lost_mda.iat[3,3] - dalys_lost.iat[3,3])
             cea_lf_qaly = prog_costs_diff/qaly_diff_lf #ICER LF
-            
+
+            prod_days_mean = days_lost.iloc[-1][1] - days_lost_mda.iloc[-1][1]
+            prod_days_lower = days_lost.iloc[-1][2] - days_lost_mda.iloc[-1][2]
+            prod_days_upper = days_lost.iloc[-1][3] - days_lost_mda.iloc[-1][3]
+
+            nat_population = country_inputs["Officialfigure"][country_inputs["Country"]==country].values[0]
+            pop_15_64 = float(country_inputs["pop_15_64"][country_inputs["Country"]==country].values[0].strip('%'))/100
+            nat_prod_pop = nat_population * pop_15_64
+          
+            if translate_text("National Level") in country_admin1:
+                st.write(translate_text(f"""With the LF MDA programs, we estimate approximately {prod_days_mean:,.0f} [{prod_days_lower:,.0f}, {prod_days_upper:,.0f}] productivity days gained per year at this level. 
+                                        This translates into around {prod_days_mean/252:,.0f} extra productivity years gained per year (assuming a 252-day work year). Note that at national-level, this is approximately
+                                         {(prod_days_mean * 100/252)/nat_prod_pop:,.2f}% of the national workforce i.e., individuals between the ages of 18 - 64 years. In addition, approximately
+                                         {lymphedema_table.iloc[6][1]} person-years p.a. will be saved from reduced caregiver time for those with severe disease."""))
+            else:
+                st.write(translate_text(f"""With the LF MDA programs, we estimate approximately {prod_days_mean:,.0f} [{prod_days_lower:,.0f}, {prod_days_upper:,.0f}] productivity days gained per year at this level. 
+                                        This translate into around {prod_days_mean/252:,.0f} extra productivity years gain per year (assuming a 252-day work year). In addition, approximately
+                                         {lymphedema_table.iloc[6][1]} person-years p.a. will be saved from reduced caregiver time for those with severe disease. """))
+                
+            prog_costs_pa_mda = float(econ_results_mda.iloc[0][1].replace('$','').replace(',',''))
+            health_sector_costs_mda = float(econ_results_mda.iloc[2][1].replace('$','').replace(',',''))
+            oop_costs_mda = float(econ_results_mda.iloc[3][1].replace('$','').replace(',',''))
+            tot_hs_costs_mda = prog_costs_pa_mda + health_sector_costs_mda + oop_costs_mda
+
+            prog_costs_pa_no_mda = float(econ_results.iloc[0][1].replace('$','').replace(',',''))
+            health_sector_costs_no_mda = float(econ_results.iloc[2][1].replace('$','').replace(',',''))
+            oop_costs_no_mda = float(econ_results.iloc[3][1].replace('$','').replace(',',''))
+            tot_hs_costs_no_mda = prog_costs_pa_no_mda + health_sector_costs_no_mda + oop_costs_no_mda
+
+            st.write(translate_text(f"""We estimate annual total healthcare spending of {tot_hs_costs_no_mda:,.2f} USD in the absence of disease elimination. This declines by {(tot_hs_costs_no_mda - tot_hs_costs_mda)*100/tot_hs_costs_no_mda:,.1f}%
+                                    to {tot_hs_costs_mda:,.2f} USD p.a. if LF is eliminated at this level. This assumes that even if LF is eliminated, those with chronic disease e.g., hydrocele, will 
+                                    continue getting appropriate care. This also assumes that program funding is sustained until certification of elimination at this level, and with 
+                                    appropriate surveillance to assess for recrudescence. These healthcare costs do not include care offered at community level e.g., for wound management."""))
+      
             st.write(translate_text(f"""For every USD invested in LF MDA programs, there is an economic return of {nmb_lf:,.2f} USD for every dollar invested. In this ROI analysis, we do not look at spillover benefits on other diseases that
                 can be controlled or treated with the same MDA regimens like soil-transmitted helminths. This estimate should therefore be viewed as a conservative estimate. The incremental costs per QALY is {cea_lf_qaly:,.2f}. 
                 This value is cost effective whether one uses the somewhat controversial GDP-based threshold of {gdp_ppp_x:,.2f} USD per QALY or the alternative threshold of {cea_threshold():,.2f} USD per QALY using the approach 
                 by [Woods et al (2016)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5193154/)."""))
+
+            st.write(translate_text(f"""Using a societal viewpoint, the MDA programme leads to economic benefits of approximately {tot_lf_econ_costs[0] - tot_lf_econ_costs_mda[0]:,.0f} USD per year. This translates to economic benefits of
+                                       approximately {(tot_lf_econ_costs[0] - tot_lf_econ_costs_mda[0])/(lymphedema_cases + hydrocele_cases):,.0f} USD per chronic case per year. See estimated affected population estimates in the preceding tab."""))
+            
             st.write('*<p style="color:red;">Note: we use placeholding values for program costs that need to be adjusted using country specific data.*', unsafe_allow_html=True)
 
         detailed_results = st.expander(translate_text("Monte Carlo Simulations Table. Click to see and download."))
