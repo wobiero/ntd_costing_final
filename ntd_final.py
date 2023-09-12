@@ -2267,7 +2267,7 @@ if "Lymphatic filariasis" in ntd_disease:
         values_non_disc = np.repeat(1, len(indicators))
         values_disc = np.repeat(1, len(indicators))
         
-       econ_results = pd.DataFrame(list(zip(indicators, values_non_disc, values_disc)),
+        econ_results = pd.DataFrame(list(zip(indicators, values_non_disc, values_disc)),
                             columns=["Indicator", "Discounted Values", "Cumulative-Discounted Values"])
     
         econ_results.loc[econ_results["Indicator"]=="Elimination Date", "Discounted Values"] = 2020 + time_horizon
