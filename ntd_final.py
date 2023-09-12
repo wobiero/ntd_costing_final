@@ -2266,7 +2266,15 @@ if "Lymphatic filariasis" in ntd_disease:
                     "Economic Workdays Lost", "Lost Labor Costs", "Total Economic Costs", ]
         values_non_disc = np.repeat(1, len(indicators))
         values_disc = np.repeat(1, len(indicators))
-        
+        # We assume that OOP is approximately 4 hours of lost time per visit.
+        simulated_df["OOP"] = (simulated_df["annual_adl_days"] + simulated_df["annual_non_adl_days"]) * 24 * econ_values()[0] * 3
+        lf_oop_costs = simulated_df["OOP"].mean()
+        labor_loss = (days_lost.iloc[-1]["Mean"] * daily_wage()[0]).tolist()
+        health_sector_hours = simulated_df['annual_health_sector_time'].mean() * 8
+        health_sector_costs = direct_health_sector_costs().tolist()[0]
+        prog_costs = prog_cost_df.loc[prog_cost_df["Category"]=="Total", "Estimate"].iloc[0] 
+
+        tot_lf_econ_costs = health_sector_costs + prog_costs + lf_oop_costs + labor_loss
         econ_results = pd.DataFrame(list(zip(indicators, values_non_disc, values_disc)),
                             columns=["Indicator", "Discounted Values", "Cumulative-Discounted Values"])
     
