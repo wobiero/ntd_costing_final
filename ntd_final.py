@@ -1955,6 +1955,7 @@ if "Lymphatic filariasis" in ntd_disease:
         #     )
         #     medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
         medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
+        
         technical_expander = st.sidebar.expander(translate_text("Technical parameters (In-built defaults))"))
         with technical_expander:
 
@@ -1962,6 +1963,7 @@ if "Lymphatic filariasis" in ntd_disease:
             dw_lymphedema = st.number_input(translate_text("Disability weight lymphedema(default=.105)"), value=.105)
             dw_hydrocele = st.number_input(translate_text("Disability weight hydrocele(default=.073)"), value=.073)
             avg_onset = st.number_input(translate_text("Age of symptom onset LF(default=20)"), value=20)
+            
             #Economic defaults
             disc_costs = st.number_input(translate_text("Discount rate costs"), value=0.03)
             disc_effects = st.number_input(translate_text("Discount rate effects"), value=0.03)
@@ -2257,7 +2259,7 @@ if "Lymphatic filariasis" in ntd_disease:
         days_lost = annual_workdays_lost_no_mda(simulated_df,lymphedema_cases, hydrocele_cases)[0]
         days_narrative = annual_workdays_lost_no_mda(simulated_df,lymphedema_cases, hydrocele_cases)[1]
         dalys_lost = dalys_pa(hydrocele_cases, lymphedema_cases, simulated_df)
-
+        
         indicators = ["Annual Costs", "Elimination Date", 
                     "Direct Health Sector Costs", "Out-Of-Pocket Costs", "Consultation Hours",
                     "DALYs",
@@ -2265,17 +2267,7 @@ if "Lymphatic filariasis" in ntd_disease:
         values_non_disc = np.repeat(1, len(indicators))
         values_disc = np.repeat(1, len(indicators))
         
-        # We assume that OOP is approximately 4 hours of lost time per visit.
-        simulated_df["OOP"] = (simulated_df["annual_adl_days"] + simulated_df["annual_non_adl_days"]) * 24 * econ_values()[0] * 3
-        lf_oop_costs = simulated_df["OOP"].mean()
-        labor_loss = (days_lost.iloc[-1]["Mean"] * daily_wage()[0]).tolist()
-        health_sector_hours = simulated_df['annual_health_sector_time'].mean() * 8
-        health_sector_costs = direct_health_sector_costs().tolist()[0]
-        prog_costs = prog_cost_df.loc[prog_cost_df["Category"]=="Total", "Estimate"].iloc[0] 
-
-        tot_lf_econ_costs = health_sector_costs + prog_costs + lf_oop_costs + labor_loss
-        
-        econ_results = pd.DataFrame(list(zip(indicators, values_non_disc, values_disc)),
+       econ_results = pd.DataFrame(list(zip(indicators, values_non_disc, values_disc)),
                             columns=["Indicator", "Discounted Values", "Cumulative-Discounted Values"])
     
         econ_results.loc[econ_results["Indicator"]=="Elimination Date", "Discounted Values"] = 2020 + time_horizon
@@ -2291,7 +2283,8 @@ if "Lymphatic filariasis" in ntd_disease:
         econ_results.loc[econ_results["Indicator"]=="DALYs", "Cumulative-Discounted Values"] = '{:,.0f}'.format(cost_discounter([dalys_lost.iloc[-1]["Mean"]]*time_horizon, time_horizon, disc_costs=disc_costs))
 
         econ_results.loc[econ_results["Indicator"]=="Lost Labor Costs", "Discounted Values"] = "$" + str('{:,.2f}'.format(labor_loss[0]))
-        econ_results.loc[econ_results["Indicator"]=="Lost Labor Costs", "Cumulative-Discounted Values"] = "$" + str('{:,.2f}'.format(cost_discounter([labor_loss[0]]*time_horizon, time_horizon, disc_costs=disc_costs))
+        econ_results.loc[econ_results["Indicator"]=="Lost Labor Costs", "Cumulative-Discounted Values"] = "$" + str('{:,.2f}'.format(cost_discounter([labor_loss[0]]*time_horizon,time_horizon, disc_costs=disc_costs)))
+       # econ_results_mda.loc[econ_results_mda["Indicator"]=="DALYs", "Cumulative-Discounted Values"] = '{:,.0f}'.format(cost_discounter([dalys_lost_mda.iloc[-1]["Mean"]]*time_horizon, time_horizon, disc_costs=disc_costs))
 
         econ_results.loc[econ_results["Indicator"]=="Consultation Hours", "Discounted Values"] = '{:,.0f}'.format(health_sector_hours)
         econ_results.loc[econ_results["Indicator"]=="Consultation Hours", "Cumulative-Discounted Values"] = '{:,.0f}'.format(health_sector_hours * time_horizon)
@@ -2313,7 +2306,7 @@ if "Lymphatic filariasis" in ntd_disease:
         
         with see_econ_results:
             show_df(econ_results)
-
+            
             nmhsht = hydrocele_clinic_time_no_mda(simulated_df) 
             st.write(translate_text(f"""
             In a non-MDA scenario, approximately {nmhsht[4]:,.0f} workdays would have been spent on hydrocele
