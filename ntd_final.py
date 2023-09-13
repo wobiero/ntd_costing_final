@@ -2998,31 +2998,31 @@ if "Onchocerciasis" in ntd_disease:
 
         with cost_expander:
             # Remember to allocate the costs appropriately if shared
-            personnel_1 = st.number_input("Project personnel costs", value = 1.0)
-            personnel_2 = st.number_input("MOH personnel costs", value = 1.0)
-            personnel_3 = st.number_input("Volunteer personnel costs", value = 1.0)
+            personnel_1 = st.number_input("Project personnel costs", value = 1000)
+            personnel_2 = st.number_input("MOH personnel costs", value = 1000)
+            personnel_3 = st.number_input("Volunteer personnel costs", value = 1000)
 
-            capital_1 = st.number_input("Building (annualized) costs", value = 1.0)
+            capital_1 = st.number_input("Building (annualized) costs", value = 1000)
 
-            consumables_1 = st.number_input("MDA drug costs", value = 1.0)
-            consumables_2 = st.number_input("Consumables costs", value = 1.0)
+            consumables_1 = st.number_input("MDA drug costs", value = 1000)
+            consumables_2 = st.number_input("Consumables costs", value = 1000)
 
-            training_1 = st.number_input("MDA training costs", value = 1.0)
-            training_2 = st.number_input("TAS training costs", value = 1.0)
+            training_1 = st.number_input("MDA training costs", value = 1000)
+            training_2 = st.number_input("TAS training costs", value = 1000)
 
-            transport_1 = st.number_input("Vehicle purchase (annualized) costs", value = 1.0) #Remember to adjust by project share
-            transport_2 = st.number_input("Vehicle leasing costs", value = 1.0)
+            transport_1 = st.number_input("Vehicle purchase (annualized) costs", value = 1000) #Remember to adjust by project share
+            transport_2 = st.number_input("Vehicle leasing costs", value = 1000)
 
-            meetings_1 = st.number_input("Planning meeting costs", value = 1.0)
-            meetings_2 = st.number_input("Mapping meeting costs", value = 1.0)
-            meetings_3 = st.number_input("TAS meeting costs", value = 1.0)
-            meetings_4 = st.number_input("Other meetings incl. conferences", value = 1.0)
+            meetings_1 = st.number_input("Planning meeting costs", value = 1000)
+            meetings_2 = st.number_input("Mapping meeting costs", value = 1000)
+            meetings_3 = st.number_input("TAS meeting costs", value = 1000)
+            meetings_4 = st.number_input("Other meetings incl. conferences", value = 1000)
 
-            mda_cost = st.number_input("MDA dose costs", value=1.15)
-            tas_cost = st.number_input("Transmission assessment survey costs", value=1)
-            post_mda_cost = st.number_input("Post MDA surveillance costs", value=1)
+            mda_cost = st.number_input("MDA dose costs", value=1000)
+            tas_cost = st.number_input("Transmission assessment survey costs", value=1000)
+            post_mda_cost = st.number_input("Post MDA surveillance costs", value=1000)
 
-            others_1 = st.number_input("Others e.g. per diem costs", value=1)
+            others_1 = st.number_input("Others e.g. per diem costs", value=1000)
             total_prog_cost = (personnel_1 + personnel_2 + personnel_3 + capital_1 + consumables_1 +
                 consumables_2 + training_1 + training_2 + transport_1 + transport_2 +
                 meetings_1 + meetings_2 + meetings_3 + meetings_4 + mda_cost +
@@ -3058,54 +3058,56 @@ if "Onchocerciasis" in ntd_disease:
 
         mean_opd_visit_cost = country_inputs.at[country_inputs[country_inputs["Country"]==country].index[0], "Health Centre-no beds"]
         
-        patient_costs = st.sidebar.expander(translate_text("Average patient costs"))
+        # patient_costs = st.sidebar.expander(translate_text("Average patient costs"))
 
-        with patient_costs:
-            mean_visit_cost = st.number_input("Mean patient visit cost ($)", value = mean_opd_visit_cost)
-            medication_costs = st.number_input("Drug costs for OPD visit", value = 1)
-            laboratory_costs = st.number_input("Laboratory costs for OPD visit", value=1)
-            specialist_costs = st.number_input("Ophthalmology p.a.", value=1) 
-            skincare_costs = st.number_input("Dermatology costs p.a.", value=1)
-            consultation_costs = st.number_input("Specialist consultation costs", value=1)
-            travel_costs = st.number_input("Avg. travel costs", value=1)
-            avg_time_at_clinic = st.number_input("Average time spent at facility in hours", value=1)
-            time_costs_routine = avg_time_at_clinic * daily_wage()[1]
+        # with patient_costs:
+        #     mean_visit_cost = st.number_input("Mean patient visit cost ($)", value = mean_opd_visit_cost)
+        #     medication_costs = st.number_input("Drug costs for OPD visit", value = 1)
+        #     laboratory_costs = st.number_input("Laboratory costs for OPD visit", value=1)
+        #     specialist_costs = st.number_input("Ophthalmology p.a.", value=1) 
+        #     skincare_costs = st.number_input("Dermatology costs p.a.", value=1)
+        #     consultation_costs = st.number_input("Specialist consultation costs", value=1)
+        #     travel_costs = st.number_input("Avg. travel costs", value=1)
+        #     avg_time_at_clinic = st.number_input("Average time spent at facility in hours", value=1)
+        #     time_costs_routine = avg_time_at_clinic * daily_wage()[1]
 
-            patient_visit_costs = (
-                medication_costs + laboratory_costs + consultation_costs + travel_costs +
-                specialist_costs + skincare_costs + time_costs_routine
-            )
-            medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
+        #     patient_visit_costs = (
+        #         medication_costs + laboratory_costs + consultation_costs + travel_costs +
+        #         specialist_costs + skincare_costs + time_costs_routine
+        #     )
+        #     medical_cost_inflation = (3 + country_inputs['Inflation rate (consumer prices) (%)'][country_inputs["Country"]==country])/100
 
         technical_expander = st.sidebar.expander(translate_text("Technical parameters (In-built defaults))"))
         with technical_expander:
 
             # Disability weights from the GBD study
-            dw_lymphedema = st.number_input("Disability weight lymphedema(default=.105)", value=.105)
-            dw_hydrocele = st.number_input("Disability weight hydrocele(default=.073)", value=.073)
-            avg_onset = st.number_input("Age of symptom onset LF(default=20)", value=20)
+            dw_blind = st.number_input("Disability weight blind(default=.6)", value=.6)
+            dw_severe_itch = st.number_input("Disability weight severe itch(default=.187)", value=.187)
+            #avg_onset = st.number_input("Age of symptom onset LF(default=20)", value=20)
             #Economic defaults
             disc_costs = st.number_input("Discount rate costs", value=0.04)
             disc_effects = st.number_input("Discount rate effects", value=0.04)
 
             # Health system utilization
-            hyd_visits = st.number_input("Hydrocele clinic visits p.a.", value=2)
-            lym_visits = st.number_input("Lymphedema clinic visits p.a.", value=4)
-            adl_visits = st.number_input("ADL clinic visits p.a.", value=4.65)
-            adl_episode = st.number_input("Duration of ADL episode", value=3.93)
+            oae_visits = st.number_input("Epilepsy clinic visits p.a.", value=3)
+            opd_visits = st.number_input("OV clinic visits p.a.", value=.4)
+            # adl_visits = st.number_input("ADL clinic visits p.a.", value=4.65)
+            # adl_episode = st.number_input("Duration of ADL episode", value=3.93)
 
             # Productivity loses
-            prod_loss_hyd = st.number_input("Productivity loss hydrocele", value=.15)
-            prod_loss_lym = st.number_input("Productivity loss lymphedema", value=.18)
-            prod_loss_adl = st.number_input("Productivity loss ADL", value=.78)
+            prod_loss_epi = st.number_input("Productivity loss blind", value=.79)
+            prod_loss_itch = st.number_input("Productivity loss severe itch", value=.19)
+            prod_loss_lv = st.number_input("Productivity loss low vision", value=.38)
+            prod_loss_ct = st.number_input("Productivity loss caretaker", value=.05)
 
             # Other parameters:
-            at_risk_pop = st.number_input("At risk population(default=10%)", value=pop_req_mda)
-            lf_to_lymph = st.number_input("% of LF infections->lymphedema(default=12.5%)", value=.125)
-            lf_to_hydro = st.number_input("% of LF infections->hydrocele(default=20.8%)", value=.208)
-            lf_to_subcl = st.number_input("% of LF infections subclinical(default=66.7%)", value=.667)
-            daly_av_hydr = st.number_input("DALY Averted per prevented hydrocele(default=2.3)", value=2.3)
-            daly_av_lymh = st.number_input("DALY averted per prevented lymphedema(default=3.3)", value=3.3)
+            # at_risk_pop = st.number_input("At risk population(default=10%)", value=pop_req_mda)
+            # lf_to_lymph = st.number_input("% of LF infections->lymphedema(default=12.5%)", value=.125)
+            # lf_to_hydro = st.number_input("% of LF infections->hydrocele(default=20.8%)", value=.208)
+            # lf_to_subcl = st.number_input("% of LF infections subclinical(default=66.7%)", value=.667)
+            # daly_av_hydr = st.number_input("DALY Averted per prevented hydrocele(default=2.3)", value=2.3)
+            # daly_av_lymh = st.number_input("DALY averted per prevented lymphedema(default=3.3)", value=3.3)
+
 #=============================================================================================================================
         country_maps = st.expander(translate_text(f"Click here to see and download the {country} MDA programme status map"))
         with country_maps:
@@ -3728,19 +3730,22 @@ if "Onchocerciasis" in ntd_disease:
             st.write(translate_text(f"""<em>Patient level:</em> We estimated that approximately {simulated_df["patient_time"].mean():,.0f} productive person-years p.a. would have been lost at this level
                 because of onchocerciasis had there been no MDA programmes. 
                 With MDA, this declined to {(1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean():,.0f} 
-                productive person-years p.a. lost. We assume that persons with chronic conditions e.g., leopard skin have long-term effects that cannot be reduced by MDA.
-                This translates to productivity losses of {daily_wage()[0].values[0] * simulated_df["patient_time"].mean() * 262:,.0f} USD p.a. if we use inequality adjusted wages, 
-                and {gdp_ppp_x * simulated_df["patient_time"].mean():,.0f} USD if we use GDP-based mean daily wages in the hypothetical absence of MDA. With current MDA programmes,
-                this translates to productivity losses of {daily_wage()[0].values[0] * (1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean() * 262:,.0f} USD p.a. if we use inequality adjusted wages, 
-                and {gdp_ppp_x * (1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean():,.0f} USD if we use GDP-based mean daily wages. """), unsafe_allow_html=True)
+                productive person-years p.a. lost. We assume that persons with chronic conditions e.g., leopard skin have long-term effects that cannot be reduced by MDA. """), unsafe_allow_html=True)
             
-            st.write(translate_text(f"""<em>Caretaker level:</em> The average caretaker productivity loss at this level is {simulated_df["caretaker_time"].mean():,.0f} person-years p.a.
-                The caretaker productivity losses are limited to people who are blind or have low vision and are therefore conservative. This assume
-                {simulated_df["oncho_vision"].mean():,.0f} poor vision and {simulated_df["oncho_blind"].mean():,.0f} blind cases at this level.
-                We assume that low vision and blindness are irreversible. This translates to {daily_wage()[0].values[0] * simulated_df["caretaker_time"].mean() * 262:,.0f} USD 
-                p.a. if we use inequality adjusted wages, and {gdp_ppp_x * simulated_df["caretaker_time"].mean():,.0f} USD if we use GDP-based mean daily wages.
-                The inequality-adjusted wages are estimated based on the earnings of the lowest quintile."""), unsafe_allow_html=True)   
-            
+            st.write(translate_text(f"""<em>Caretaker level:</em> 
+                The caretaker productivity losses are limited to people who are blind or have low vision and the estimates are therefore conservative. We assume that low vision and blindness are irreversible.
+                We estimate that MDA programs have prevented approximately {simulated_df["oncho_vision"].mean():,.0f} poor vision and {simulated_df["oncho_blind"].mean():,.0f} blind cases at this level that 
+                would have required fulltime caregiver assistance. This translates to annual economic benefits (saved caregiver time benefits) of {daily_wage()[0].values[0] * simulated_df["caretaker_time"].mean() * 262:,.0f} USD 
+                per year if we use inequality adjusted wages, and {gdp_ppp_x * simulated_df["caretaker_time"].mean():,.0f} USD if we use GDP-based mean daily wages. The inequality-adjusted wages are estimated based on 
+                the earnings of the poorest wealth quintile that we assume are most affected by onchocerciasis. Despite these caregiver benefits, we estimate that there is a residual annual average caretaker productivity 
+                loss at this level of {simulated_df["caretaker_time"].mean():,.0f} person-years (per year) i.e., to take care of the already afflicted. These estimates assume that caretakers are adult and do not take into account 
+                education and economic impacts of caregiving by school-going children."""), unsafe_allow_html=True)   
+
+            st.write(translate_text(f"""<em>Societal level:</em> The economic impacts (gains) are approximately {daily_wage()[0].values[0] * simulated_df["patient_time"].mean() * 262:,.0f} USD per year if we use inequality adjusted wages, 
+                and {gdp_ppp_x * simulated_df["patient_time"].mean():,.0f} USD if we use GDP-based mean daily wages if we compare the MDA program with a counterfactual scenario of no MDA programs. Note: despite the current MDA programmes,
+                their is continuing productivity losses of approximately {daily_wage()[0].values[0] * (1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean() * 262:,.0f} USD per year if we use inequality adjusted wages, 
+                and {gdp_ppp_x * (1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean():,.0f} USD if we use GDP-based mean daily wages -- based on estimates of those already afflicted by the disease. """), unsafe_allow_html=True)
+                        
         with st.expander(translate_text("Incremental cost benefit ratios")):
         
             def simulate_icers(n_simulations: int =1000, gdp: Optional[float] = None) -> pd.DataFrame:
