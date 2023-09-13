@@ -3745,7 +3745,9 @@ if "Onchocerciasis" in ntd_disease:
                 and {gdp_ppp_x * simulated_df["patient_time"].mean():,.0f} USD if we use GDP-based mean daily wages if we compare the MDA program with a counterfactual scenario of no MDA programs. Note: despite the current MDA programmes,
                 their is continuing productivity losses of approximately {daily_wage()[0].values[0] * (1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean() * 262:,.0f} USD per year if we use inequality adjusted wages, 
                 and {gdp_ppp_x * (1 - simulated_df["morbidity_reduction_mda"].mean()) * simulated_df["patient_time"].mean():,.0f} USD if we use GDP-based mean daily wages -- based on estimates of those already afflicted by the disease. """), unsafe_allow_html=True)
-                        
+           
+            st.write(translate_text(f"""<em>Return-on-investment:</em> Based on these calculations, the MDA program has an annual return-on-investment of {(daily_wage()[0].values[0] * simulated_df["patient_time"].mean() * 262 - total_prog_cost)/total_prog_cost:,.2f} USD 
+                                    to {(gdp_ppp_x * simulated_df["patient_time"].mean() - total_prog_cost)/total_prog_cost:,.2f} USD. """), unsafe_allow_html=True)              
         with st.expander(translate_text("Incremental cost benefit ratios")):
         
             def simulate_icers(n_simulations: int =1000, gdp: Optional[float] = None) -> pd.DataFrame:
