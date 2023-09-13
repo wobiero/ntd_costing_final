@@ -2660,7 +2660,7 @@ if "Onchocerciasis" in ntd_disease:
         start.write(translate_text(about_tool))
 
         gen_notes = st.expander(translate_text("General notes for onchocerciasis module"))
-        gen_notes.write(translate_markdown(onchocerciasis_notes))
+        gen_notes.markdown(translate_markdown(onchocerciasis_notes))
 
         st.markdown("-----")
 
@@ -3738,7 +3738,7 @@ if "Onchocerciasis" in ntd_disease:
                 would have required fulltime caregiver assistance. This translates to annual economic benefits (saved caregiver time benefits) of {daily_wage()[0].values[0] * simulated_df["caretaker_time"].mean() * 262:,.0f} USD 
                 per year if we use inequality adjusted wages, and {gdp_ppp_x * simulated_df["caretaker_time"].mean():,.0f} USD if we use GDP-based mean daily wages. The inequality-adjusted wages are estimated based on 
                 the earnings of the poorest wealth quintile that we assume are most affected by onchocerciasis. Despite these caregiver benefits, we estimate that there is a residual annual average caretaker productivity 
-                loss at this level of {simulated_df["caretaker_time"].mean():,.0f} person-years (per year) i.e., to take care of the already afflicted. These estimates assume that caretakers are adult and do not take into account 
+                loss at this level of {simulated_df["caretaker_time"].mean():,.0f} person-years (per year) i.e., to take care of the already afflicted. These estimates assume that caretakers are adults and do not take into account 
                 education and economic impacts of caregiving by school-going children."""), unsafe_allow_html=True)   
 
             st.write(translate_text(f"""<em>Societal level:</em> The economic impacts (gains) are approximately {daily_wage()[0].values[0] * simulated_df["patient_time"].mean() * 262:,.0f} USD per year if we use inequality adjusted wages, 
