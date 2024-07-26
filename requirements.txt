@@ -2,7 +2,7 @@
  googletrans==4.0.0rc1
  markdown==3.2.2
  matplotlib==3.5.1
- numpy
+ numpy==1.20.3
  pandas
  pathlib2==2.3.5
  Pillow==9.0.0
